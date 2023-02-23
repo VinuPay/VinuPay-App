@@ -1,58 +1,37 @@
 // noinspection JSValidateTypes
 
 import React from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Typography from "@mui/material/Typography";
-import VerifiedIcon from '../../assets/verified.svg';
-import Grid from "@mui/material/Grid";
-import {PayClient} from "../../Onoffchain";
-import * as imalConnect from "../../imalConnect/index.js";
-import VerifiedRoundedIcon from "../../assets/verified.svg";
-export default function NameSelector_CI(props) {
-    // Get all user names and store them into a state
-    const [time, setTime] = React.useState(0);
-    const handleChange = (event) => {
-        setSelectedName(event.target.value);
-        if (event.target.value === '') {
-            props.onNameSelect(false);
-            return;
-        }
-        props.onNameSelect(event.target.value);
-    };
-    return (
-        <div>
-            <h1>Choose expiration time</h1>
-            <p>Select a name to use for this invoice</p>
-            <FormControl sx={{ m: 1, minWidth: 200 }}>
-                <InputLabel>VinuPay Name</InputLabel>
-                <Select
-                    value={selectedName}
-                    onChange={handleChange}
-                    autoWidth
-                    label="VinuPay Name"
-                    MenuProps={{ PaperProps: { sx: { maxHeight: 500 } } }}
-                >
-                    <MenuItem value="" key="none">
-                        <em>None</em>
-                    </MenuItem>
-                    {userNames.map((name) => {
-                        return (
-                            <MenuItem value={name.name} key={name.id}>
-                                <Grid container direction="row" alignItems="center">
-                                    <Typography variant="paragraph">
-                                        {name.name}.vinu
-                                    </Typography>
-                                    {name.isTrusted ? <VerifiedRoundedIcon style={{transform: 'scale(0.4)', marginLeft: -11}}/> : null}
-                                </Grid>
-                            </MenuItem>
-                        )
-                    })}
-                </Select>
-            </FormControl>
-        </div>
-    )
-
+import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import TextField from '@mui/material/TextField';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs from 'dayjs';
+export default function TimeSelector_CI(props) {
+  // Get all user names and store them into a state
+  const [time, setTime] = React.useState(dayjs().add(1, 'day').startOf('day'));
+  const handleTimeChange = (newValue) => {
+    // Check if valid
+    if (newValue.isBefore(dayjs().add(7, 'days'))) {
+      props.onTimeInput(newValue);
+    } else {
+      props.onTimeInput(false);
+    }
+  };
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {/* ^ Using User's local time, will convert to utc later to get snapshot block ^ */}
+      <h1>Choose expiration time</h1>
+      <p>When should this invoice expire?</p>
+      <DateTimePicker
+        label="Date&Time picker"
+        value={time}
+        onChange={(newValue) => {
+          setTime(newValue); handleTimeChange(newValue);
+        }}
+        renderInput={(params) => <TextField {...params} />}
+        maxDateTime={dayjs().add(6, 'days').add(23, 'hours').add(59, 'minutes')} // For safety
+        minDateTime={dayjs().add(1, 'minute')}
+      />
+    </LocalizationProvider>
+  );
 }
