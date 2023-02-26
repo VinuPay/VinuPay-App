@@ -47,16 +47,21 @@ export function isConnected() {
   }
 }
 export async function sendAccountBlock(block) {
-  console.log(block);
-  const waitingToast = toast.loading('Complete the transaction in your Vite wallet');
-  if (VitePassport.vitePassportAvailable() === true && VitePassport.isPassportConnected() === true) {
-    return await VitePassport.sendTransaction(block, waitingToast);
-  } else if (ViteConnect.isConnected() === true) {
-    return await ViteConnect.sendTransaction(block, waitingToast);
-  } else if (ViteBridge.isBridgeConnected() === true) {
-    return await ViteBridge.sendTransaction(block, waitingToast);
-  } else {
-    throw new Error('Not connected');
+  try {
+    console.log(block);
+    console.log('e');
+    const waitingToast = toast.loading('Complete the transaction in your Vite wallet');
+    if (VitePassport.vitePassportAvailable() === true && VitePassport.isPassportConnected() === true) {
+      return await VitePassport.sendTransaction(block, waitingToast);
+    } else if (ViteConnect.isConnected() === true) {
+      return await ViteConnect.sendTransaction(block, waitingToast);
+    } else if (ViteBridge.isBridgeConnected() === true) {
+      return await ViteBridge.sendTransaction(block, waitingToast);
+    } else {
+      throw new Error('Not connected');
+    }
+  } catch (e) {
+    waitingToast.error(`Transaction failed: ${e.message}`);
   }
 }
 

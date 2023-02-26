@@ -56,7 +56,6 @@ export default function ConnectModal(props) {
 
   return (
     <>
-
       <Modal
         open={openModal}
         onClose={handleModalClose}
@@ -124,7 +123,7 @@ export default function ConnectModal(props) {
         sx={{marginLeft: 'auto', borderRadius: 3}}>
         <WalletRoundedIcon
           height="40"
-          sx={{color: `${imalConnect.isConnected() === true ? '#52fa71' : 'text.sidebar'}`}}/>
+          sx={{color: `${imalConnect.isConnected() === true ? '#52fa71' : 'text.connectWallet'}`}}/>
         <Typography
           id="connectWalletText"
           variant="h5"
@@ -133,13 +132,12 @@ export default function ConnectModal(props) {
           sx={{
             marginLeft: 3,
             fontWeight: 600,
-            color: `${imalConnect.isConnected() === true ? '#52fa71' : 'text.sidebar'}`,
+            color: `${imalConnect.isConnected() === true ? '#52fa71' : 'text.connectWallet'}`,
             display: {md: 'flex', xs: 'none'}}}>
           {imalConnect.isConnected() === true ? props.connectedText : props.connectText}
         </Typography>
       </IconButton>
     </>
-
   );
 }
 ConnectModal.defaultProps = {

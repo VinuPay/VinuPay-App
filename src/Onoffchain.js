@@ -81,6 +81,20 @@ export class Calls {
     console.log(decodedId);
     return decodedId.txId;
   }
+
+  static async payInvoice(invoiceId, amount, token) {
+    console.log(`Paying invoice ${invoiceId} with amount ${amount} and token ${token}`);
+    const userAddress = await imalConnect.getConnectedAddress();
+    const block = new vite.AccountBlock(ViteClient);
+    block.setBlockType(2);
+    block.setProducer(userAddress);
+    block.setRecipient(contractAddress);
+    block.setTokenId(token);
+    block.setAmount(amount);
+    block.setData(Buffer.from(invoiceId, 'utf8'));
+    console.log(block);
+    return block.partialAccountBlock;
+  }
 }
 export function isValidAddress(address) {
   return vite.isValidAddress(address) === 1 || vite.isValidAddress(address) === 2;

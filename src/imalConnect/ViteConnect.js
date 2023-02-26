@@ -1,6 +1,6 @@
 import Connector from '@vite/connector';
 import toast from 'react-hot-toast';
-const bridge = /* 'wss://viteconnect.thomiz.dev';*/ 'wss://biforst.vite.net';
+const bridge = 'wss://viteconnect.thomiz.dev';/* 'wss://biforst.vite.net'*/ ;
 import {isTransactionSuccess} from './utils.js';
 export let vcI = new Connector({bridge});
 import {connectEvents, resolveAwaitConnectionPromise} from './index.js';

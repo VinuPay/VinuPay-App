@@ -105,7 +105,8 @@ export default function ManageNameTabs(props) {
         component="div"
         color="error"
         sx={{flexGrow: 1, textAlign: 'center'}}
-        display={error === false ? 'none' : 'initial'}>
+        display={error === false ? 'none' : 'initial'}
+      >
         An error occured: {error}
       </Typography>
       <Box sx={{width: '100%'}} component="div" display={statsLoaded === true && error === false ? 'initial' : 'none'}>
@@ -114,18 +115,27 @@ export default function ManageNameTabs(props) {
             borderBottom: 1,
             borderColor: 'divider',
             maxWidth: {xs: 320, sm: 480, md: 600, lg: 900},
-            minWidth: {xs: 200, sm: 300, md: 400, lg: 800}}}
-          component="div">
+            minWidth: {xs: 200, sm: 300, md: 400, lg: 800},
+            margin: '0 auto',
+          }}
+          component="div"
+        >
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
             variant="scrollable"
-            scrollButtons="auto">
+            scrollButtons="auto"
+            sx={{
+              'justifyContent': 'center',
+              '& .MuiTab-root': {
+                maxWidth: 'none',
+              },
+            }}
+          >
             {error === false ? namesArray.map((name, currentIndex) => (
-              <Tab label={name.name + '.vinu'} {...a11yProps(currentIndex)} key={name.nameId}/>
+              <Tab label={name.name + '.vinu'} {...a11yProps(currentIndex)} key={name.nameId} />
             )) : null}
-
           </Tabs>
         </Box>
         {error === false ? namesArray.map((name, currentIndex) => (
@@ -136,12 +146,20 @@ export default function ManageNameTabs(props) {
               owner={connectedAddress}
               isVerified={name.isTrusted}
               key={name.nameId}
-              canManage={true}/>
+              canManage={true}
+            />
           </TabPanel>
         )) : null}
       </Box>
       <Box sx={{width: '100%'}} display={statsLoaded === false && error === false ? 'initial' : 'none'}>
-        <LinearProgress sx={{height: 7, borderRadius: 3, width: '30rem'}}/>
+        <LinearProgress
+          sx={{
+            height: 7,
+            borderRadius: 3,
+            width: '30rem',
+            maxWidth: '30%',
+          }}
+        />
       </Box>
     </>
   );

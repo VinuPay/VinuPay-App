@@ -8,9 +8,6 @@ import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
 import * as React from 'react';
 import StatsHandler from '../viteChain/statsHandler.js';
 import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import {getTokenInfo} from '../viteChain/cryptoInfo';
-
 class MainTab extends React.Component {
   constructor() {
     super();
@@ -44,7 +41,7 @@ class MainTab extends React.Component {
       <div>
 
         <ItemDrawer/>
-        <h1>Welcome to VinuPay! 👋 (0.5 - Invoice test update)</h1>
+        <h1>Welcome to VinuPay! 👋 (0.6 - Themes update)</h1>
         <Container sx={{width: '100% !important', margin: '0 !important'}}>
           <Grid2
             container
@@ -63,10 +60,6 @@ class MainTab extends React.Component {
             </Grid2>
           </Grid2>
         </Container>
-        <Button onClick={() => {
-          getTokenInfo('tti_509c1977b40a86131dedaca4');
-        }}>Get token info</Button>
-
       </div>
     );
   }

@@ -25,6 +25,7 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import {Link} from 'react-router-dom';
 import ConnectModal from './ConnectModal';
+import ThemeSelector from './ThemeSelector';
 const drawerWidth = 240;
 
 
@@ -88,8 +89,8 @@ export default function ItemDrawer() {
     <Box sx={{display: 'flex'}}>
 
       <CssBaseline />
-      <AppBar position="fixed" open={open} >
-        <Toolbar>
+      <AppBar position="fixed" open={open}>
+        <Toolbar sx={{backgroundColor: 'background.sidebar'}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -97,13 +98,12 @@ export default function ItemDrawer() {
             edge="start"
             sx={{mr: 2, ...(open && {display: 'none'})}}
           >
-            <MenuIcon />
+            <MenuIcon/>
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             {/* <img src={LogoWhite} className="App-logo" alt="logo" style={{height: 40, marginTop: 7}}/>*/}
           </Typography>
-
-          <ConnectModal></ConnectModal>
+          <ConnectModal/>
 
 
         </Toolbar>
@@ -153,7 +153,7 @@ export default function ItemDrawer() {
                 to={index % 2 === 0 ? `/nameLookup` : `/invoiceLookup`}
                 style={{textDecoration: 'none'}}
                 color="primary">
-                <ListItemButton sx={{borderRadius: 1.5}} disabled={index === 1}>
+                <ListItemButton sx={{borderRadius: 1.5}}>
                   <ListItemIcon sx={{color: 'text.icon'}}>
                     {index % 2 === 0 ? <PersonSearchIcon /> : <PlagiarismIcon />}
                   </ListItemIcon>
@@ -168,7 +168,7 @@ export default function ItemDrawer() {
           {['Create an invoice', 'Pay an invoice'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <Link to={index % 2 === 0 ? `/createInvoice` : `/payInvoice`} style={{textDecoration: 'none'}}>
-                <ListItemButton sx={{borderRadius: 1.5}} disabled>
+                <ListItemButton sx={{borderRadius: 1.5}} disabled={index === 1}>
                   <ListItemIcon sx={{color: 'text.icon'}}>
                     {index % 2 === 0 ? <PointOfSaleRoundedIcon /> : <AttachMoneyRoundedIcon />}
                   </ListItemIcon>
@@ -178,6 +178,7 @@ export default function ItemDrawer() {
             </ListItem>
           ))}
         </List>
+        <ThemeSelector/>
       </Drawer>
       <Main open={open}>
 

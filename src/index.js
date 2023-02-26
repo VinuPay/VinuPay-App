@@ -5,7 +5,7 @@ import 'setimmediate';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import CssBaseline from '@mui/material/CssBaseline';
 import {Toaster} from 'react-hot-toast';
-import {lightTheme, darkTheme} from './themes.jsx';
+import themes from './themes.jsx';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -17,7 +17,8 @@ import MintTab from './pages/MintTab.jsx';
 import NameLookupTab from './pages/NameLookupTab.jsx';
 import CreateInvoiceTab from './pages/CreateInvoiceTab';
 import InvoiceLookupTab from './pages/InvoiceLookupTab';
-
+import {EventEmitter} from 'events';
+export const themeChange = new EventEmitter();
 // --- Router ---
 export const router = createBrowserRouter([
   {
@@ -52,7 +53,35 @@ export const router = createBrowserRouter([
   },
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <ThemeProvider theme={darkTheme}>
+    <App/>,
+);
+function App() {
+  const [currentTheme, setCurrentTheme] = React.useState(themes[0]);
+  React.useEffect(() => {
+    const theme = getCookie('theme');
+    if (theme) {
+      // Find theme in array of themes
+      const themeIndex = themes.findIndex((t) => t.name === theme);
+      if (themeIndex !== -1) {
+        setCurrentTheme(themes[themeIndex]);
+      } else {
+        setCurrentTheme(themes[0]);
+      }
+    }
+    themeChange.on('themeChange', themeChangeEvent);
+    if (!theme) {
+      document.cookie = 'theme=Nox';
+    }
+    return () => {
+      themeChange.off('themeChange', themeChangeEvent);
+    };
+  }, []);
+  const themeChangeEvent = (theme) => {
+    document.cookie = `theme=${theme}`;
+    setCurrentTheme(themes.find((t) => t.name === theme));
+  };
+  return (
+    <ThemeProvider theme={currentTheme}>
       <CssBaseline enableColorScheme/>
 
       <RouterProvider router={router}>
@@ -68,5 +97,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           },
         }}
       />
-    </ThemeProvider>,
-);
+    </ThemeProvider>
+  );
+}
+// https://stackoverflow.com/a/15724300
+export function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}

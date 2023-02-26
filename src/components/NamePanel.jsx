@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import TextField from '@mui/material/TextField';
@@ -44,7 +45,6 @@ export default function NamePanel(props) {
   return (
     <Container component="div" maxWidth={'100%'}>
       <Box
-        component="div"
         sx={{
           'maxWidth': '100%',
           'borderWidth': 15,
@@ -59,108 +59,76 @@ export default function NamePanel(props) {
           },
         }}
       >
-        <Typography variant="h3" component={'div'} sx={{fontWeight: 800}}>Name Info 📜</Typography>
-        <Typography variant="h4" component={'div'} sx={{fontWeight: 900}}>{props.name}.vinu</Typography>
-        <Typography
-          variant="h5"
-          component={'div'}
-          align="left"
-          sx={{paddingLeft: 2, paddingTop: 2, fontWeight: 500, fontSize: 30}}>
-          Owner: <Link
-            href={`https://vitcscan.com/address/${props.owner}`}
-            underline="none"
-            rel="noopener"
-            color="#52abff"
-            target="_blank">
-            {props.owner.slice(0, 11) + '...'}
-          </Link>
-        </Typography>
-        <Typography
-          variant="h5"
-          component={'div'}
-          align="left"
-          sx={{
-            paddingLeft: 2,
-            paddingTop: 2,
-            fontWeight: 500,
-            fontSize: 30}}>
-          Name ID: {props.nameId}
-        </Typography>
-        <Typography
-          variant="h5"
-          component={'div'}
-          align="left"
-          sx={{
-            paddingLeft: 2,
-            paddingTop: 2,
-            fontWeight: 500,
-            fontSize: 30}}>
-          Trusted:{props.isVerified ?
-          <CheckRoundedIcon
-            sx={{
-              color: '#56ff00',
-              stroke: '#56ff00',
-              strokeWidth: 3}}/> :
-          <CloseRoundedIcon sx={{
-            color: '#f44336',
-            stroke: '#f44336',
-            strokeWidth: 3}}/>} </Typography>
-        {props.canManage ? <hr/> : null}
-        {props.canManage ? <div>
-          <Typography variant="h3" component={'div'} sx={{fontWeight: 800}}>Transfer 📨</Typography>
-          <Typography
-            variant="h5"
-            component={'div'}
-            align="center"
-            sx={{
-              paddingTop: 1,
-              paddingBottom: 1,
-              fontWeight: 500,
-              fontSize: 30}}>
-            New owner
+        <Box sx={{p: 3}}>
+          <Typography variant="h3" fontWeight="800">Name Info 📜</Typography>
+          <Typography variant="h4" fontWeight="900">{props.name}.vinu</Typography>
+          <Typography variant="h5" align="left" sx={{fontWeight: 500, fontSize: 30}}>
+            Owner:{' '}
+            <Link
+              href={`https://vitcscan.com/address/${props.owner}`}
+              underline="none"
+              rel="noopener"
+              color="#52abff"
+              target="_blank">
+              {props.owner.slice(0, 11) + '...'}
+            </Link>
           </Typography>
-
-          <TextField
-            id="filled-basic"
-            label="Vite Address"
-            variant="filled"
-            sx={{marginBottom: 2}}
-            error={!addressValid}
-            onChange={(event) => {
-              verifyTransfer(event.target.value);
-            }}/>
-          <Typography
-            variant="h6"
-            component={'div'}
-            display={transferAddressHelperText !== false ? 'block' : 'none'}
-            color={addressValid ? '#1eff18' : '#ff0000'}>
-            {transferAddressHelperText}
+          <Typography variant="h5" align="left" sx={{fontWeight: 500, fontSize: 30}}>
+            Name ID: {props.nameId}
           </Typography>
-
-          <Typography
-            variant="h5"
-            component={'div'}
-            align="center"
-            sx={{
-              paddingTop: 1,
-              paddingBottom: 1,
-              fontWeight: 600,
-              fontSize: 30,
-              color: '#ff0000'}}>
-            NOTE: This action is irreversible !
+          <Typography variant="h5" align="left" sx={{fontWeight: 500, fontSize: 30}}>
+            Trusted:{' '}
+            {props.isVerified ? (
+              <CheckRoundedIcon sx={{color: '#56ff00', stroke: '#56ff00', strokeWidth: 3}} />
+            ) : (
+              <CloseRoundedIcon sx={{color: '#f44336', stroke: '#f44336', strokeWidth: 3}} />
+            )}
           </Typography>
-          <Button
-            variant="contained"
-            color="error"
-            sx={{
-              minHeight: 50,
-              minWidth: 120}}
-            disabled={!addressValid}
-            onClick={() => {
-              transferName();
-            }}>Transfer</Button>
-        </div> : <div></div>}
-
+        </Box>
+        {props.canManage && (
+          <>
+            <Divider />
+            <Box sx={{p: 3}}>
+              <Typography variant="h3" fontWeight="800">Transfer 📨</Typography>
+              <Typography variant="h5" align="center" sx={{fontWeight: 500, fontSize: 30, pt: 2}}>
+                New owner
+              </Typography>
+              <TextField
+                id="filled-basic"
+                label="Vite Address"
+                variant="filled"
+                sx={{my: 2}}
+                error={!addressValid}
+                onChange={(event) => {
+                  verifyTransfer(event.target.value);
+                }}
+              />
+              <Typography
+                variant="h6"
+                component="div"
+                display={transferAddressHelperText !== false ? 'block' : 'none'}
+                color={addressValid ? '#1eff18' : '#ff0000'}
+                sx={{mb: 2}}
+              >
+                {transferAddressHelperText}
+              </Typography>
+              <Typography variant="h5" align="center" sx={{fontWeight: 600, fontSize: 30, color: '#ff0000'}}>
+                NOTE: This action is irreversible!
+              </Typography>
+              <Button
+                variant="contained"
+                color="error"
+                sx={{mt: 2, minHeight: 50, minWidth: 120}}
+                disabled={!addressValid}
+                onClick={() => {
+                  transferName();
+                }}
+              >
+                Transfer
+              </Button>
+            </Box>
+          </>
+        )}
       </Box>
     </Container>
 

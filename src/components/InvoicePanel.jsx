@@ -6,11 +6,10 @@ import TextField from '@mui/material/TextField';
 import VinuPayIcon from '../assets/icon_blue.svg';
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import VinuPayLogo from '../assets/logo_blue.svg';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import {PayClient} from '../Onoffchain.js';
+import LoadingButton from '@mui/lab/LoadingButton';
+import {Calls, PayClient} from '../Onoffchain.js';
 import * as cryptoInfo from '../viteChain/cryptoInfo.js';
 import BigNumber from 'bignumber.js';
 import * as utils from '@vite/vitejs-utils';
@@ -27,6 +26,7 @@ export default function InvoicePanel(props) {
   const [expiredDisplay, setExpiredDisplay] = React.useState('none');
   const [successDisplay, setSuccessDisplay] = React.useState('none');
   const [notFoundDisplay, setNotFoundDisplay] = React.useState('none');
+  const [loadPayWithConnectedWallet, setLoadPayWithConnectedWallet] = React.useState(false);
   const expireBlockRef = React.useRef();
   // noinspection JSConstantReassignment
   expireBlockRef.current = expireBlock;
@@ -107,6 +107,14 @@ export default function InvoicePanel(props) {
       console.log(e);
     }
   };
+  const payWithConnectedWallet = async () => {
+    const block = await Calls.payInvoice(props.txId, invoice.amount, invoice.txToken);
+    setLoadPayWithConnectedWallet(true);
+    await imalConnect.sendAccountBlock(block).catch(() => {
+      setLoadPayWithConnectedWallet(false);
+    });
+    setLoadPayWithConnectedWallet(false);
+  };
   return (
     <Box
       sx={{
@@ -136,11 +144,19 @@ export default function InvoicePanel(props) {
             <Grid item xs={4} sx={{display: {xs: 'none', md: 'flex'}}}>
               <VinuPayIcon style={{transform: 'scale(1)'}}/>
             </Grid>
-            <Grid item
+            <Grid
+              item
               xs={4}
-              sx={{mt: 'auto', mb: 'auto', maxWidth: '100%', textAlign: 'center'}}
+              sx={{
+                mt: 'auto',
+                mb: 'auto',
+                maxWidth: '100%',
+                textAlign: 'center',
+                alignItems: 'center', // add this line
+              }}
               display="flex"
-              flexDirection="column">
+              flexDirection="column"
+            >
               <Typography
                 variant="h3"
                 sx={{fontWeight: 800, mb: 1}}>
@@ -153,11 +169,14 @@ export default function InvoicePanel(props) {
                 </Typography>
               </Typography>
               <Typography variant={'h5'}>{creatorName}</Typography>
-              <Button
+              <LoadingButton
+                loading={loadPayWithConnectedWallet}
+                onClick={payWithConnectedWallet}
                 variant="contained"
-                sx={{mt: 2, display: displayPayWithConnectedWallet}}>
+                sx={{mt: 2, display: displayPayWithConnectedWallet}}
+              >
                 Pay with connected wallet
-              </Button>
+              </LoadingButton>
               <Typography variant="h5" sx={{mt: 2}}>{remainingTime}</Typography>
             </Grid>
             <Grid item
@@ -187,10 +206,11 @@ export default function InvoicePanel(props) {
           <Divider sx={{backgroundColor: 'background.primary', width: '60%'}}/>
         </Container>
         {/* Grid with address, amount and memo*/}
+        {/* Grid with address, amount and memo*/}
         <Container sx={{mb: 2, display: 'flex', textAlign: 'center'}}>
           <Grid container spacing={2} sx={{width: 1, ml: 'auto', mr: 'auto'}} direction="column">
             <Grid item xs={4}>
-              <TextField label="Address" sx={{width: {xs: '90%', md: '75%'}}}
+              <TextField label="Address" sx={{width: {xs: '100%', sm: '90%', md: '75%'}}}
                 defaultValue={PayClient.contract.address}
                 InputProps={{readOnly: true}}
                 variant="filled"
@@ -200,12 +220,12 @@ export default function InvoicePanel(props) {
               <Grid item xs={4}>
                 <TextField
                   label="Amount"
-                  sx={{width: {xs: '90%', md: '75%'}}}
+                  sx={{width: {xs: '100%', sm: '90%', md: '75%'}}}
                   defaultValue={new BigNumber(invoice.amount).shiftedBy(-invoiceToken.decimals).toFixed()}
                   InputProps={{readOnly: true}} variant="filled"/>
               </Grid> : null}
             <Grid item xs={4}>
-              <TextField label="Invoice ID (Memo)" sx={{width: {xs: '90%', md: '75%'}}}
+              <TextField label="Invoice ID (Memo)" sx={{width: {xs: '100%', sm: '90%', md: '75%'}}}
                 defaultValue={props.txId}
                 InputProps={{readOnly: true}}
                 variant="filled"

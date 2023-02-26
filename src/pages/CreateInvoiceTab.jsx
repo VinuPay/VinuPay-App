@@ -4,7 +4,7 @@ import CreateInvoice from '../components/CreateInvoice';
 import * as imalConnect from '../imalConnect/index.js';
 
 export default function CreateInvoiceTab() {
-  const [connected, setConnected] = useState(true);
+  const [connected, setConnected] = useState(false);
 
   const disconnectEvent = () => {
     setConnected(false);
