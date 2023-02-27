@@ -233,7 +233,7 @@ export default class MintMenu extends React.Component {
             <Typography
               display="inline"
               variant="h3"
-              sx={{fontWeight: 800, color: '#006aff'}}>
+              sx={{fontWeight: 800, color: 'background.primary'}}>
               Pay 🎉
             </Typography>
           </Typography>

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
-import VinuPayIcon from '../assets/icon_blue.svg';
+import VinuPayIcon from '../assets/icon_universal.svg';
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Typography from '@mui/material/Typography';
@@ -16,6 +16,7 @@ import * as utils from '@vite/vitejs-utils';
 import * as imalConnect from '../imalConnect/index.js';
 import StatsHandler from '../viteChain/statsHandler';
 import {QRCode} from 'react-qrcode-logo';
+import {useTheme} from '@mui/material/styles';
 export default function InvoicePanel(props) {
   const [invoice, setInvoice] = React.useState({});
   const [creatorName, setCreatorName] = React.useState('');
@@ -27,6 +28,7 @@ export default function InvoicePanel(props) {
   const [successDisplay, setSuccessDisplay] = React.useState('none');
   const [notFoundDisplay, setNotFoundDisplay] = React.useState('none');
   const [loadPayWithConnectedWallet, setLoadPayWithConnectedWallet] = React.useState(false);
+  const theme = useTheme();
   const expireBlockRef = React.useRef();
   // noinspection JSConstantReassignment
   expireBlockRef.current = expireBlock;
@@ -119,11 +121,11 @@ export default function InvoicePanel(props) {
     <Box
       sx={{
         backgroundColor: 'background.paper',
-        borderRadius: 2.5,
         display: 'flex',
         boxShadow: 2,
         flexDirection: 'column',
         maxWidth: 1,
+        minHeight: 500,
       }}>
 
       {/* Main page, not paid or expired */}
@@ -142,7 +144,7 @@ export default function InvoicePanel(props) {
         <Container sx={{display: 'flex', mt: 2, justifyContent: 'center'}}>
           <Grid container spacing={3} sx={{maxWidth: '100%'}} justifyContent="center">
             <Grid item xs={4} sx={{display: {xs: 'none', md: 'flex'}}}>
-              <VinuPayIcon style={{transform: 'scale(1)'}}/>
+              <VinuPayIcon style={{transform: 'scale(1)', fill: theme.palette.primary.main}}/>
             </Grid>
             <Grid
               item
@@ -164,7 +166,7 @@ export default function InvoicePanel(props) {
                 <Typography
                   display="inline"
                   variant="h3"
-                  sx={{fontWeight: 800, color: '#006aff'}}>
+                  sx={{fontWeight: 800, color: 'background.primary'}}>
                   Pay
                 </Typography>
               </Typography>
@@ -190,7 +192,7 @@ export default function InvoicePanel(props) {
                 logoImage={<VinuPayIcon/>}
                 logoWidth={50}
                 logoHeight={50} size={200}
-                fgColor='#006aff'
+                fgColor={theme.palette.primary.main}
               />
             </Grid>
           </Grid>

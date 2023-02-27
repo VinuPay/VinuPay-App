@@ -67,6 +67,40 @@ const themes = [
     },
   }),
   // Custom themes
+  // Vita
+  createTheme({
+    name: 'Vita',
+    typography: {
+      fontFamily: 'Inter',
+      fontColor: '#ffded1',
+    },
+    palette: {
+      mode: 'dark',
+      background: {
+        sidebar: '#0f1011',
+        paper: '#181b1b',
+        primary: '#ff6729',
+      },
+      text: {
+        primary: '#ffded1',
+        invoiceTop: '#ffffff',
+        sidebar: '#ffded1',
+        connectWallet: '#ffded1',
+      },
+      secondary: {
+        main: '#62fd1c',
+        contrastText: '#000',
+      },
+      primary: {
+        main: '#ff6729',
+        contrastText: '#ffded1',
+      },
+      error: {
+        main: '#fc3333',
+        contrastText: '#ffded1',
+      },
+    },
+  }),
 ];
 // eslint-disable-next-line guard-for-in
 for (const i in themes) {

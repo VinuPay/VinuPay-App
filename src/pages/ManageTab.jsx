@@ -1,42 +1,49 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import ItemDrawer from '../components/sidebar';
-import Tab from '../components/TabClass.jsx';
 import ManageNameTabs from '../components/ManageNameTabs.jsx';
 import * as imalConnect from '../imalConnect/index.js';
-export default class ManageTab extends Tab {
-  constructor(props) {
-    super(props);
-    this.state = {
-      connected: false,
-      openNo: 0,
-    };
-  }
-  disconnectEvent = () => {
-    this.setState({connected: false});
+
+const ManageTab = (props) => {
+  const [connected, setConnected] = useState(false);
+  const [openNo, setOpenNo] = useState(0);
+
+  const disconnectEvent = () => {
+    setConnected(false);
   };
-  connectEvent = () => {
-    this.setState({connected: true});
+
+  const connectEvent = () => {
+    setConnected(true);
   };
-  async componentDidMount() {
+
+  useEffect(() => {
     const hash = new URL(document.URL).hash.substring(1);
     if (hash !== '') {
-      this.setState({openNo: hash});
+      setOpenNo(hash);
     }
     // Await connection
     if (imalConnect.isConnected()) {
-      this.setState({connected: true});
+      setConnected(true);
     }
-    imalConnect.connectEvents.on('connect', this.connectEvent);
-    imalConnect.connectEvents.on('disconnect', this.disconnectEvent);
-  }
-  render() {
-    return (
-      <div>
-        <ItemDrawer/> <h1>Manage Names 📝</h1>
-        {imalConnect.isConnected() ?
-          <ManageNameTabs openTab={this.state.openNo}/> :
-          <h1>Connect your wallet to manage your names!</h1>}
-      </div>
-    );
-  }
-}
+    imalConnect.connectEvents.on('connect', connectEvent);
+    imalConnect.connectEvents.on('disconnect', disconnectEvent);
+
+    return () => {
+      imalConnect.connectEvents.off('connect', connectEvent);
+      imalConnect.connectEvents.off('disconnect', disconnectEvent);
+    };
+  }, []);
+
+  return (
+    <div>
+      <ItemDrawer />
+      <h1>Manage Names 📝</h1>
+      {connected ? (
+        <ManageNameTabs openTab={openNo} />
+      ) : (
+        <h1>Connect your wallet to manage your names!</h1>
+      )}
+    </div>
+  );
+};
+
+export default ManageTab;

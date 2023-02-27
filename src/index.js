@@ -18,6 +18,7 @@ import NameLookupTab from './pages/NameLookupTab.jsx';
 import CreateInvoiceTab from './pages/CreateInvoiceTab';
 import InvoiceLookupTab from './pages/InvoiceLookupTab';
 import {EventEmitter} from 'events';
+import PayInvoiceTab from './pages/PayInvoiceTab';
 export const themeChange = new EventEmitter();
 // --- Router ---
 export const router = createBrowserRouter([
@@ -49,6 +50,11 @@ export const router = createBrowserRouter([
   {
     path: '/invoiceLookup',
     element: <InvoiceLookupTab/>,
+    errorElement: <NotFoundTab/>,
+  },
+  {
+    path: '/payInvoice',
+    element: <PayInvoiceTab/>,
     errorElement: <NotFoundTab/>,
   },
 ]);

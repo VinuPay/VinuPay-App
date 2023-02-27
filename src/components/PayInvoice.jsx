@@ -9,7 +9,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import {PayClient} from '../Onoffchain.js';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import InvoiceModal from './InvoiceModal';
-export default function InvoiceLookup() {
+export default function PayInvoice() {
   const [invoiceId, setInvoiceId] = React.useState('');
   const [isValid, setIsValid] = React.useState(true);
   const [reason, setReason] = React.useState('');
@@ -80,7 +80,7 @@ export default function InvoiceLookup() {
             },
           }}
         >
-          <Typography variant="h4" sx={{fontWeight: 700}}>Enter the invoice ID you&apos;d like to look up 📝</Typography>
+          <Typography variant="h4" sx={{fontWeight: 700}}>Enter the invoice ID you&apos;d like to pay 📝</Typography>
 
           <FormControl sx={{m: 2, width: '26ch'}} variant="outlined">
             <OutlinedInput
@@ -112,7 +112,7 @@ export default function InvoiceLookup() {
             color="secondary" sx={{minHeight: 50, minWidth: 120}}
             disabled={!isValid || invoiceId === ''}
           >
-                        Look up
+                        Pay
           </LoadingButton>
           <Typography
             variant="h3"
