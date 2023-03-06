@@ -1,5 +1,18 @@
 /* eslint-disable max-len */
 import createTheme from '@mui/material/styles/createTheme';
+import './fonts/inter-v12-latin-regular.woff2';
+import './fonts/inter-v12-latin-regular.woff';
+import './fonts/inter-v12-latin-900.woff2';
+import './fonts/inter-v12-latin-900.woff';
+import './fonts/inter-v12-latin-800.woff2';
+import './fonts/inter-v12-latin-800.woff';
+import './fonts/inter-v12-latin-700.woff2';
+import './fonts/inter-v12-latin-700.woff';
+import './fonts/inter-v12-latin-600.woff2';
+import './fonts/inter-v12-latin-600.woff';
+import './fonts/inter-v12-latin-500.woff2';
+import './fonts/inter-v12-latin-500.woff';
+
 const themes = [
   createTheme({
     name: 'Nox',
