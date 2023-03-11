@@ -38,7 +38,7 @@ function MainTab() {
   return (
     <div>
       <ItemDrawer />
-      <h1>Welcome to VinuPay! 👋 (0.75 - Fonts, duh!)</h1>
+      <h1>Welcome to VinuPay! 👋 (0.8 - Invoices Fixed)</h1>
       <Container sx={{width: '100% !important', margin: '0 !important'}}>
         <Grid
           container

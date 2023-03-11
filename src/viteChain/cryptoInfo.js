@@ -28,6 +28,7 @@ export async function getTokenInfo(tokenId) {
     if (token === null) {
       throw new Error('Token not found');
     }
+    console.log(token);
     return token;
   } catch (e) {
     console.error(e);

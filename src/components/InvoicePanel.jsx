@@ -9,6 +9,9 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import LoadingButton from '@mui/lab/LoadingButton';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
 import {Calls, PayClient} from '../Onoffchain.js';
 import * as cryptoInfo from '../viteChain/cryptoInfo.js';
 import BigNumber from 'bignumber.js';
@@ -17,6 +20,8 @@ import * as imalConnect from '../imalConnect/index.js';
 import StatsHandler from '../viteChain/statsHandler';
 import {QRCode} from 'react-qrcode-logo';
 import {useTheme} from '@mui/material/styles';
+import FilledInput from '@mui/material/FilledInput';
+
 export default function InvoicePanel(props) {
   const [invoice, setInvoice] = React.useState({});
   const [creatorName, setCreatorName] = React.useState('');
@@ -220,11 +225,14 @@ export default function InvoicePanel(props) {
             </Grid>
             {invoiceToken ?
               <Grid item xs={4}>
-                <TextField
-                  label="Amount"
-                  sx={{width: {xs: '100%', sm: '90%', md: '75%'}}}
-                  defaultValue={new BigNumber(invoice.amount).shiftedBy(-invoiceToken.decimals).toFixed()}
-                  InputProps={{readOnly: true}} variant="filled"/>
+                <FormControl sx={{width: {xs: '100%', sm: '90%', md: '75%'}}} variant="filled">
+                  <InputLabel htmlFor="amount">Amount</InputLabel>
+                  <FilledInput
+                    defaultValue={new BigNumber(invoice.amount).shiftedBy(-invoiceToken.decimals).toFixed()}
+                    InputProps={{readOnly: true}} variant="filled"
+                    endAdornment={<InputAdornment position="end">{invoiceToken.tokenSymbol}</InputAdornment>}
+                  />
+                </FormControl>
               </Grid> : null}
             <Grid item xs={4}>
               <TextField label="Invoice ID (Memo)" sx={{width: {xs: '100%', sm: '90%', md: '75%'}}}
