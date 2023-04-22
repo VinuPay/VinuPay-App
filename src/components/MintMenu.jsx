@@ -128,7 +128,7 @@ export default class MintMenu extends React.Component {
           .toFixed();
       const fiatPrice = new BigNumber(this.state.tokenPrice)
           .multipliedBy(price)
-          .toFixed();
+          .toFixed(2);
       this.setState({price: price, fiatPrice: fiatPrice, name: name, shouldLoad: false});
     } else if (name.length === 4) {
       const price = new BigNumber(this.state.contractInfo.shortMultiplier)
@@ -137,7 +137,7 @@ export default class MintMenu extends React.Component {
           .toFixed();
       const fiatPrice = new BigNumber(this.state.tokenPrice)
           .multipliedBy(price)
-          .toFixed();
+          .toFixed(2);
       this.setState({price: price, fiatPrice: fiatPrice, name: name, shouldLoad: false});
     } else if (name.length > 4 && name.length <= 24) {
       const price = new BigNumber(this.state.contractInfo.baseFee)
@@ -145,7 +145,7 @@ export default class MintMenu extends React.Component {
           .toFixed();
       const fiatPrice = new BigNumber(this.state.tokenPrice)
           .multipliedBy(price)
-          .toFixed();
+          .toFixed(2);
       this.setState({price: price, fiatPrice: fiatPrice, name: name, shouldLoad: false});
     }
   };
