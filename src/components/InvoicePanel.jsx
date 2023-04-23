@@ -107,7 +107,7 @@ export default function InvoicePanel(props) {
     try {
       return utils.uriStringify({
         target_address: PayClient.contract.address,
-        params: {amount: new BigNumber(invoice.amount).shiftedBy(-invoiceToken.decimals).toFixed(), data: btoa(txID)},
+        params: {amount: new BigNumber(invoice.amount).shiftedBy(-invoiceToken.decimals).toFixed(), data: btoa(txID), tti: invoice.txToken},
         function_name: 'pay',
       });
     } catch (e) {
